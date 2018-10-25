@@ -268,12 +268,16 @@ def distplot(a, bins=None, hist=True, kde=True, rug=False, fit=None,
 
 
 def _univariate_kdeplot(data, shade, vertical, kernel, bw, gridsize, cut,
-                        clip, legend, ax, cumulative=False, **kwargs):
+                        clip, legend, ax, cumulative=False, survival=False **kwargs):
     """Plot a univariate kernel density estimate on one of the axes."""
 
     # Sort out the clipping
     if clip is None:
         clip = (-np.inf, np.inf)
+        
+    # Set cumulative if survival is set
+    if survival:
+        cumulative = True
 
     # Calculate the KDE
     if _has_statsmodels:
@@ -296,6 +300,10 @@ def _univariate_kdeplot(data, shade, vertical, kernel, bw, gridsize, cut,
     # Make sure the density is nonnegative
     y = np.amax(np.c_[np.zeros_like(y), y], axis=1)
 
+    # Transform cumulative into survival if set
+    if survival:
+        y = 1 - y
+    
     # Flip the data if the plot should be on the y axis
     if vertical:
         x, y = y, x
