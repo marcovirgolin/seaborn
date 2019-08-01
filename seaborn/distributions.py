@@ -268,7 +268,7 @@ def distplot(a, bins=None, hist=True, kde=True, rug=False, fit=None,
 
 
 def _univariate_kdeplot(data, shade, vertical, kernel, bw, gridsize, cut,
-                        clip, legend, ax, cumulative=False, survival=False **kwargs):
+                        clip, legend, ax, cumulative=False, survival=False, **kwargs):
     """Plot a univariate kernel density estimate on one of the axes."""
 
     # Sort out the clipping
